@@ -17,40 +17,42 @@ class AirRenderer {
     constructor(slideShowDetails, settings) {
         this.slideShowDetails = slideShowDetails;
         this.settings = settings;
+        this.htmlGenerator = new index_1.HTMLGenerator(this.settings.PositionType);
         //TO-DO: Update Parser to pass in these details after parsed
         let slideSizeX = slideShowDetails.slideShowGlobals["p:presentation"]["p:sldSz"][0]["$"]["cx"];
         let slideSizeY = slideShowDetails.slideShowGlobals["p:presentation"]["p:sldSz"][0]["$"]["cy"];
         this.scaler = new gridscaler_1.GridScaler(slideSizeX, slideSizeY, 12);
         let scaledSlideX = this.scaler.getScaledValue(slideSizeX);
         let scaledSlideY = this.scaler.getScaledValue(slideSizeY);
-        let htmlGenerator = new index_1.HTMLGenerator(settings.PositionType);
         //iterate and generate
     }
     generateElement(scaler, pptElement) {
         //return the CSS and HTML for only one element
-        console.log(pptElement);
         let rendererType = pptElement.specialityType == pptelement_1.SpecialityType.None ? pptElement.shapeType : pptElement.specialityType; //set the renderer type dynamically
-        console.log(rendererType);
         //Convert PPT shapes
         let renderedElement = new ShapeRenderers[rendererType](scaler, pptElement, this.slideShowDetails, this.settings);
-        let elementCSS = renderedElement.getCSS();
-        let html = renderedElement.render();
+        let css = renderedElement.getCSS();
+        let html = renderedElement.getHTML();
         return {
             html,
-            elementCSS
+            css
         };
     }
-    renderPage() {
+    renderPage(outputPath) {
         return __awaiter(this, void 0, void 0, function* () {
             yield ziphandler_1.default.loadZip(this.slideShowDetails.inputPath);
             let all = [];
             for (let element of this.slideShowDetails.powerPointElements) {
                 let result = this.generateElement(this.scaler, element);
                 all.push(result);
+                this.htmlGenerator.addElementToDOM(result.html);
+            }
+            if (outputPath) {
+                //add HTML and CSS to files
+                //await WriteOutputFile();
             }
             return all;
         });
     }
-    writeOutputPage() { }
 }
 exports.AirRenderer = AirRenderer;

@@ -5,5 +5,6 @@ import { PowerpointElement } from "airppt-models/pptelement";
 import { PowerpointDetails } from "airppt-models/pptdetails";
 export default class Textbox extends ElementRenderer {
     constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions);
-    render(): string;
+    getCSS(): string;
+    getHTML(): string;
 }

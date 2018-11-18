@@ -16,11 +16,10 @@ function WriteOutputFile(outputDirectory, filename, value, options = {}) {
         let filePath = outputDirectory + "/" + filename;
         fs.writeFile(filePath, value, options, function (err) {
             if (err) {
-                console.log(filename + " File Writing Error");
+                console.log(filePath + " -> File Writing Error");
                 reject(err);
             }
             else {
-                console.log(filePath + " -> file was written!");
                 resolve(true);
             }
         });

@@ -9,5 +9,6 @@ import { PowerpointDetails } from "airppt-models/pptdetails";
  */
 export default class Ellipse extends ElementRenderer {
     constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions);
-    render(): string;
+    getCSS(): string;
+    getHTML(): string;
 }

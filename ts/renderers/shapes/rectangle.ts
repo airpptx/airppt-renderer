@@ -37,7 +37,7 @@ export default class Rectangle extends ElementRenderer {
 				background: this.determineBackground()
 			}
 		);
-
+		elementCSS.push(shapeCSS);
 		//stylize text in this element with a generic paragraph helper, may or may not work on all shapes
 		if (this.element.paragraph) {
 			let fontCSS = GenerateParagraphCSS(this.element.paragraph, this.element.name);
@@ -48,9 +48,12 @@ export default class Rectangle extends ElementRenderer {
 			let borderCSS = GenerateBorderCSS(this.element.shape.border, this.element.name);
 			elementCSS.push(borderCSS);
 		}
+
+		elementCSS.push(this.getPositionCSS());
+		return this.beautify(elementCSS.join(""), { format: "css" });
 	}
 
-	getHtml(): string {
+	getHTML(): string {
 		//NOTE: I'm using JQUERY to build my dom, but you can return html however you want
 
 		let shapeDiv = format(

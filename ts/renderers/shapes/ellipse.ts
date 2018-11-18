@@ -16,7 +16,11 @@ export default class Ellipse extends ElementRenderer {
 	//NOTE: We don't have to worry about width and height, our positioner takes care of that for us
 	constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions) {
 		super(scaler, element, pptDetails, rendererOptions);
-		let css = format(
+	}
+
+	getCSS(): string {
+		let elementCSS = [];
+		let shapeCSS = format(
 			`#{name}.shape{
             width:{width}px;
             height:{height}px;    
@@ -27,27 +31,29 @@ export default class Ellipse extends ElementRenderer {
 			display: table;
             }`,
 			{
-				name: element.name,
-				width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-				height: scaler.getScaledValue(element.elementOffsetPosition.cy),
-				background: element.shape.fill.fillType == FillType.Solid ? "#" + element.shape.fill.fillColor : "transparent"
+				name: this.element.name,
+				width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+				height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy),
+				background: this.element.shape.fill.fillType == FillType.Solid ? "#" + this.element.shape.fill.fillColor : "transparent"
 			}
 		);
-
+		elementCSS.push(shapeCSS);
 		//stylize text in this element with a generic paragraph helper, may or may not work on all shapes
-		if (element.paragraph) {
-			let fontCSS = GenerateParagraphCSS(element.paragraph, element.name);
-			this.addCSSAttribute(fontCSS);
+		if (this.element.paragraph) {
+			let fontCSS = GenerateParagraphCSS(this.element.paragraph, this.element.name);
+			elementCSS.push(fontCSS);
 		}
 
-		if (element.shape.border) {
-			let borderCSS = GenerateBorderCSS(element.shape.border, element.name);
-			this.addCSSAttribute(borderCSS);
+		if (this.element.shape.border) {
+			let borderCSS = GenerateBorderCSS(this.element.shape.border, this.element.name);
+			elementCSS.push(borderCSS);
 		}
-		this.addCSSAttribute(css);
+
+		elementCSS.push(this.getPositionCSS());
+		return this.beautify(elementCSS.join(""), { format: "css" });
 	}
 
-	render(): string {
+	getHTML(): string {
 		//NOTE: I'm using JQUERY to build my dom, but you can return html however you want
 
 		let shapeDiv = format('<div id="{0}" class="{1}"><p></p> </div>', this.element.name, "position shape border");

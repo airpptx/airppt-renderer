@@ -12,7 +12,6 @@ const textBeautify = require("beautify");
  * Every Shape that is implemented must extend this renderer, the positioning is handled automatically
  */
 abstract class ElementRenderer {
-	protected elementCSS = [];
 	protected $ = jquery(new jsdom.JSDOM().window);
 	protected beautify = textBeautify;
 
@@ -29,7 +28,7 @@ abstract class ElementRenderer {
 		}
 	}
 
-	public abstract getHtml(): string;
+	public abstract getHTML(): string;
 	public abstract getCSS(): string;
 
 	private generateElementAbsolutePosition() {
@@ -46,7 +45,6 @@ abstract class ElementRenderer {
 		let layoutStyle = {};
 		layoutStyle[elementStyleKey] = cssPosition;
 		let css = this.generateCSSfromObject(layoutStyle);
-		this.elementCSS.push(css);
 		return css;
 	}
 
@@ -65,7 +63,6 @@ abstract class ElementRenderer {
 		let layoutStyle = {};
 		layoutStyle[elementStyleKey] = cssPosition;
 		let css = this.generateCSSfromObject(layoutStyle);
-		this.elementCSS.push(css);
 		return css;
 	}
 
@@ -102,9 +99,6 @@ abstract class ElementRenderer {
 		}
 
 		return imagePath;
-	}
-	protected addCSSAttribute(css: string): void {
-		this.elementCSS.push(css); //add the new css object
 	}
 }
 

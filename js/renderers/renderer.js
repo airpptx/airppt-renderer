@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const options_1 = require("../models/options");
 const jsdom = require("jsdom");
 const jquery = require("jquery");
-const beautify = require("beautify");
+const textBeautify = require("beautify");
 /**
- * Every Shape that is implemented must extend this renderer
+ * Every Shape that is implemented must extend this renderer, the positioning is handled automatically
  */
 class ElementRenderer {
     constructor(scaler, element, powerpointDetails, rendererOptions) {
@@ -13,17 +13,14 @@ class ElementRenderer {
         this.element = element;
         this.powerpointDetails = powerpointDetails;
         this.rendererOptions = rendererOptions;
-        this.elementCSS = [];
         this.$ = jquery(new jsdom.JSDOM().window);
+        this.beautify = textBeautify;
         if (rendererOptions.PositionType == options_1.PositionType.Absolute) {
             this.generateElementAbsolutePosition();
         }
         else {
             this.generateElementGridPosition();
         }
-    }
-    getCSS() {
-        return beautify(this.elementCSS.join(""), { format: "css" });
     }
     generateElementAbsolutePosition() {
         let scaledPositionCoordinates = this.scaler.getScaledCoordinate({
@@ -39,7 +36,6 @@ class ElementRenderer {
         let layoutStyle = {};
         layoutStyle[elementStyleKey] = cssPosition;
         let css = this.generateCSSfromObject(layoutStyle);
-        this.elementCSS.push(css);
         return css;
     }
     generateElementGridPosition() {
@@ -54,7 +50,16 @@ class ElementRenderer {
         let layoutStyle = {};
         layoutStyle[elementStyleKey] = cssPosition;
         let css = this.generateCSSfromObject(layoutStyle);
-        this.elementCSS.push(css);
+        return css;
+    }
+    getPositionCSS() {
+        let css = "";
+        if (this.rendererOptions.PositionType == options_1.PositionType.Absolute) {
+            css = this.generateElementAbsolutePosition();
+        }
+        else {
+            css = this.generateElementGridPosition();
+        }
         return css;
     }
     generateCSSfromObject(obj) {
@@ -77,9 +82,6 @@ class ElementRenderer {
             imagePath = imagePath.replace(".tiff", ".png"); //tiffs are converted to pngs, so use the new filepath
         }
         return imagePath;
-    }
-    addCSSAttribute(css) {
-        this.elementCSS.push(css); //add the new css object
     }
 }
 exports.default = ElementRenderer;

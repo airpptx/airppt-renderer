@@ -9,23 +9,27 @@ import { PowerpointDetails } from "airppt-models/pptdetails";
 export default class Textbox extends ElementRenderer {
 	constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions) {
 		super(scaler, element, pptDetails, rendererOptions);
-		let css = format(
+	}
+
+	getCSS(): string {
+		let shapeCSS = format(
 			`#{name}.shape{
             width:{width}px;
             height:{height}px;    
             background: #{background}; 
             }`,
 			{
-				name: element.name,
-				width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-				height: scaler.getScaledValue(element.elementOffsetPosition.cy),
-				background: element.shape.fill.fillType == FillType.Solid ? "#" + element.shape.fill.fillColor : "transparent"
+				name: this.element.name,
+				width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+				height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy),
+				background: this.element.shape.fill.fillType == FillType.Solid ? "#" + this.element.shape.fill.fillColor : "transparent"
 			}
 		);
-		this.addCSSAttribute(css);
+
+		return this.beautify(shapeCSS, { format: "css" });
 	}
 
-	getHtml(): string {
+	getHTML(): string {
 		let shapeDiv = format('<div id="{0}" class="{1}"> </div>', this.element.name, "position shape");
 		this.$("body").append(shapeDiv); //add the shapediv initially
 

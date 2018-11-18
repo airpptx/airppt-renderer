@@ -13,7 +13,10 @@ import { PowerpointDetails } from "airppt-models/pptdetails";
 export default class Triangle extends ElementRenderer {
 	constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions) {
 		super(scaler, element, pptDetails, rendererOptions);
-		let css = format(
+	}
+
+	getCSS(): string {
+		let shapeCSS = format(
 			`#{name}.shape {
             width: 0;
             height: 0;
@@ -23,16 +26,18 @@ export default class Triangle extends ElementRenderer {
         }
         `,
 			{
-				name: element.name,
-				width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-				height: scaler.getScaledValue(element.elementOffsetPosition.cy) / 2,
-				background: element.shape.fill.fillType == FillType.Solid ? "#" + element.shape.fill.fillColor : "transparent"
+				name: this.element.name,
+				width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+				height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy) / 2,
+				background: this.element.shape.fill.fillType == FillType.Solid ? "#" + this.element.shape.fill.fillColor : "transparent"
 			}
 		);
-		this.addCSSAttribute(css);
+
+		let positionCSS = this.getPositionCSS();
+		return this.beautify(shapeCSS + positionCSS, { format: "css" });
 	}
 
-	render(): string {
+	getHTML(): string {
 		let shapeDiv = format('<div id="{0}" class="{1}"> </div>', this.element.name, "position shape");
 		this.$("body").append(shapeDiv); //add the shapediv initially
 

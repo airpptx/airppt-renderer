@@ -29,7 +29,7 @@ export class AirRenderer {
 		//Convert PPT shapes
 		let renderedElement = new ShapeRenderers[rendererType](scaler, pptElement, this.slideShowDetails, this.settings);
 		let css = renderedElement.getCSS();
-		let html = renderedElement.render();
+		let html = renderedElement.getHTML();
 
 		return {
 			html,
@@ -43,14 +43,13 @@ export class AirRenderer {
 		for (let element of this.slideShowDetails.powerPointElements) {
 			let result = this.generateElement(this.scaler, element);
 			all.push(result);
-			this.htmlGenerator.addElementToDOM(html);
+			this.htmlGenerator.addElementToDOM(result.html);
 		}
 
 		if (outputPath) {
 			//add HTML and CSS to files
-			elementsCSS.push(elementCSS);
-
-			await WriteOutputFile();
+			this.htmlGenerator.getGeneratedHTML();
+			//await WriteOutputFile();
 		}
 
 		return all;

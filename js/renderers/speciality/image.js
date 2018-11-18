@@ -6,18 +6,21 @@ const format = require("string-template");
 class Image extends renderer_1.default {
     constructor(scaler, element, pptDetails, rendererOptions) {
         super(scaler, element, pptDetails, rendererOptions);
-        let css = format(`#{name}.shape{
+        assetMover_1.default(this.rendererOptions.OutputPath, this.element.links.Uri, true); //also convert tiff to png
+    }
+    getCSS() {
+        let shapeCSS = format(`#{name}.shape{
             width:{width}px;
             height:{height}px;    
             }`, {
-            name: element.name,
-            width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-            height: scaler.getScaledValue(element.elementOffsetPosition.cy)
+            name: this.element.name,
+            width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+            height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy)
         });
-        this.addCSSAttribute(css);
-        assetMover_1.default(this.rendererOptions.OutputPath, this.element.links.Uri, true); //also convert tiff to png
+        let positionCSS = this.getPositionCSS();
+        return this.beautify(shapeCSS + positionCSS, { format: "css" });
     }
-    render() {
+    getHTML() {
         let imagePath = this.getOutputImagePath(this.element.links.Uri);
         return format('<img id="{0}" src="{1}" class="position shape">', this.element.name, imagePath);
     }

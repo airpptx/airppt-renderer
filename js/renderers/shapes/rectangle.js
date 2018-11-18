@@ -16,29 +16,34 @@ class Rectangle extends renderer_1.default {
     //NOTE: We don't have to worry about positioning, our scaler and the base class takes care of that for us
     constructor(scaler, element, pptDetails, rendererOptions) {
         super(scaler, element, pptDetails, rendererOptions);
-        let css = format(`#{name}.shape{
+    }
+    getCSS() {
+        let elementCSS = [];
+        let shapeCSS = format(`#{name}.shape{
 			width:{width}px;
 			height:{height}px;  
 			background: {background}; 
 			display: table;
             }`, {
-            name: element.name,
-            width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-            height: scaler.getScaledValue(element.elementOffsetPosition.cy),
+            name: this.element.name,
+            width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+            height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy),
             background: this.determineBackground()
         });
+        elementCSS.push(shapeCSS);
         //stylize text in this element with a generic paragraph helper, may or may not work on all shapes
-        if (element.paragraph) {
-            let fontCSS = paragraph_1.default(element.paragraph, element.name);
-            this.addCSSAttribute(fontCSS);
+        if (this.element.paragraph) {
+            let fontCSS = paragraph_1.default(this.element.paragraph, this.element.name);
+            elementCSS.push(fontCSS);
         }
-        if (element.shape.border) {
-            let borderCSS = border_1.default(element.shape.border, element.name);
-            this.addCSSAttribute(borderCSS);
+        if (this.element.shape.border) {
+            let borderCSS = border_1.default(this.element.shape.border, this.element.name);
+            elementCSS.push(borderCSS);
         }
-        this.addCSSAttribute(css);
+        elementCSS.push(this.getPositionCSS());
+        return this.beautify(elementCSS.join(""), { format: "css" });
     }
-    render() {
+    getHTML() {
         //NOTE: I'm using JQUERY to build my dom, but you can return html however you want
         let shapeDiv = format(`<div id="{0}" class="{1}">
 				<a style="height:100%;display:block;"> </a>

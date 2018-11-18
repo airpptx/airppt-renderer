@@ -6,19 +6,21 @@ const pptelement_1 = require("airppt-models/pptelement");
 class Textbox extends renderer_1.default {
     constructor(scaler, element, pptDetails, rendererOptions) {
         super(scaler, element, pptDetails, rendererOptions);
-        let css = format(`#{name}.shape{
+    }
+    getCSS() {
+        let shapeCSS = format(`#{name}.shape{
             width:{width}px;
             height:{height}px;    
             background: #{background}; 
             }`, {
-            name: element.name,
-            width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-            height: scaler.getScaledValue(element.elementOffsetPosition.cy),
-            background: element.shape.fill.fillType == pptelement_1.FillType.Solid ? "#" + element.shape.fill.fillColor : "transparent"
+            name: this.element.name,
+            width: this.scaler.getScaledValue(this.element.elementOffsetPosition.cx),
+            height: this.scaler.getScaledValue(this.element.elementOffsetPosition.cy),
+            background: this.element.shape.fill.fillType == pptelement_1.FillType.Solid ? "#" + this.element.shape.fill.fillColor : "transparent"
         });
-        this.addCSSAttribute(css);
+        return this.beautify(shapeCSS, { format: "css" });
     }
-    render() {
+    getHTML() {
         let shapeDiv = format('<div id="{0}" class="{1}"> </div>', this.element.name, "position shape");
         this.$("body").append(shapeDiv); //add the shapediv initially
         if (this.element.paragraph) {
@@ -26,7 +28,6 @@ class Textbox extends renderer_1.default {
             this.$("#" + this.element.name).append(inputHTML);
         }
         return this.$("#" + this.element.name)[0].outerHTML;
-        return "Textbox";
     }
 }
 exports.default = Textbox;

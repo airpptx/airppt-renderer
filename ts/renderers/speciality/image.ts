@@ -10,18 +10,7 @@ import { PowerpointDetails } from "airppt-models/pptdetails";
 export default class Image extends ElementRenderer {
 	constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions) {
 		super(scaler, element, pptDetails, rendererOptions);
-		let css = format(
-			`#{name}.shape{
-            width:{width}px;
-            height:{height}px;    
-            }`,
-			{
-				name: element.name,
-				width: scaler.getScaledValue(element.elementOffsetPosition.cx),
-				height: scaler.getScaledValue(element.elementOffsetPosition.cy)
-			}
-		);
-		this.addCSSAttribute(css);
+
 		copyAssetToOutputDirectory(this.rendererOptions.OutputPath, this.element.links.Uri, true); //also convert tiff to png
 	}
 
@@ -43,7 +32,7 @@ export default class Image extends ElementRenderer {
 		return this.beautify(shapeCSS + positionCSS, { format: "css" });
 	}
 
-	getHtml(): string {
+	getHTML(): string {
 		let imagePath = this.getOutputImagePath(this.element.links.Uri);
 
 		return format('<img id="{0}" src="{1}" class="position shape">', this.element.name, imagePath);

@@ -10,7 +10,7 @@ class CSSGenerator {
 	static gridCSS = [];
 	static absoluteCSS = [];
 
-	public static generateCSS(posType: PositionType, cssElements: string[], absoluteSizeX?: number, absoluteSizeY?: number) {
+	public static addCSSObjects(posType: PositionType, cssElements: string[], absoluteSizeX?: number, absoluteSizeY?: number) {
 		let css = "";
 		if (posType == PositionType.Absolute) {
 			this.absoluteCSS.push(
