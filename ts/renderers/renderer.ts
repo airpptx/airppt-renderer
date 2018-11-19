@@ -66,18 +66,7 @@ abstract class ElementRenderer {
 		return css;
 	}
 
-	protected getPositionCSS() {
-		let css = "";
-		if (this.rendererOptions.PositionType == PositionType.Absolute) {
-			css = this.generateElementAbsolutePosition();
-		} else {
-			css = this.generateElementGridPosition();
-		}
-
-		return css;
-	}
-
-	protected generateCSSfromObject(obj: any) {
+	private generateCSSfromObject(obj: any) {
 		const selectors = Object.keys(obj);
 		let css = selectors
 			.map(selector => {
@@ -88,6 +77,17 @@ abstract class ElementRenderer {
 				return `${selector} {${rules}}`;
 			})
 			.join("");
+		return css;
+	}
+
+	protected getPositionCSS() {
+		let css = "";
+		if (this.rendererOptions.PositionType == PositionType.Absolute) {
+			css = this.generateElementAbsolutePosition();
+		} else {
+			css = this.generateElementGridPosition();
+		}
+
 		return css;
 	}
 
