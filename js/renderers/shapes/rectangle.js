@@ -69,7 +69,7 @@ class Rectangle extends renderer_1.default {
             return "#" + this.element.shape.fill.fillColor;
         }
         if (fillDetails.fillType == pptelement_1.FillType.Image) {
-            assetMover_1.default(this.rendererOptions.OutputPath, fillDetails.fillColor, true);
+            assetMover_1.default(this.rendererOptions.OutputDirectory, fillDetails.fillColor, true);
             //change tiff references to pngs
             let imagePath = this.getOutputImagePath(fillDetails.fillColor);
             console.log("GOT Imagepath as ", imagePath);

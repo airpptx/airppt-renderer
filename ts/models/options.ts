@@ -11,10 +11,15 @@ export interface RenderedElement {
 export interface RendererOptions {
 	PositionType: PositionType;
 	GridSize?: number;
-	OutputPath?: string;
+	OutputDirectory?: string;
+	StyleSheetName?: string;
 }
 
 export interface RawSlideShowDetails {
 	slideShowGlobals: any;
 	slideShowTheme: any;
+}
+
+export class Defaults {
+	public static STYLE_SHEET_NAME = "element.css";
 }

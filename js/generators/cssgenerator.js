@@ -6,38 +6,42 @@ const options_1 = require("../models/options");
  */
 const beautify = require("beautify");
 class CSSGenerator {
-    static generateCSS(posType, cssElements, absoluteSizeX, absoluteSizeY) {
-        let css = "";
-        if (posType == options_1.PositionType.Absolute) {
-            this.absoluteCSS.push(`.wrapper {
-            position: fixed;
-            width:` +
-                absoluteSizeX +
+    constructor(slideCanvasSize, settings) {
+        this.slideCanvasSize = slideCanvasSize;
+        this.settings = settings;
+        this.allCSS = [];
+        if (settings.PositionType == options_1.PositionType.Absolute) {
+            let absCSS = `.wrapper {
+				position: fixed;
+				width:` +
+                slideCanvasSize.x +
                 `px;
-            height:` +
-                absoluteSizeY +
+				height:` +
+                slideCanvasSize.y +
                 `px;
-            border-color: #000000;
-            border-style: dotted
-		  }`);
-            this.absoluteCSS = this.absoluteCSS.concat(cssElements);
-            css = beautify(this.absoluteCSS.join(""), { format: "css" });
+				border-color: #000000;
+				border-style: dotted
+			  }`;
+            this.allCSS.push(this.allCSS);
         }
         else {
-            this.gridCSS.push(`
+            let gridCSS = `
 			.wrapper {
 				display: grid;
 				grid-template-columns: repeat(12, 1fr);
 				grid-gap: 10px;
 				grid-auto-rows: minmax(80px, auto);
 				width: 100vw;
-			  }`);
-            this.gridCSS = this.gridCSS.concat(cssElements);
-            css = beautify(this.gridCSS.join(""), { format: "css" });
+			  }`;
+            this.allCSS.push(gridCSS);
         }
-        return css;
+    }
+    addCSSObject(css) {
+        //TO-DO: Validate CSS
+        this.allCSS.push(css);
+    }
+    getGeneratedCSS() {
+        return beautify(this.allCSS.join(""), { format: "css" });
     }
 }
-CSSGenerator.gridCSS = [];
-CSSGenerator.absoluteCSS = [];
 exports.default = CSSGenerator;

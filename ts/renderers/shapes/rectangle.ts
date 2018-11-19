@@ -90,7 +90,7 @@ export default class Rectangle extends ElementRenderer {
 		}
 
 		if (fillDetails.fillType == FillType.Image) {
-			copyAssetToOutputDirectory(this.rendererOptions.OutputPath, fillDetails.fillColor, true);
+			copyAssetToOutputDirectory(this.rendererOptions.OutputDirectory, fillDetails.fillColor, true);
 			//change tiff references to pngs
 			let imagePath = this.getOutputImagePath(fillDetails.fillColor);
 			console.log("GOT Imagepath as ", imagePath);

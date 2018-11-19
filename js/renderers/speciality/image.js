@@ -6,7 +6,7 @@ const format = require("string-template");
 class Image extends renderer_1.default {
     constructor(scaler, element, pptDetails, rendererOptions) {
         super(scaler, element, pptDetails, rendererOptions);
-        assetMover_1.default(this.rendererOptions.OutputPath, this.element.links.Uri, true); //also convert tiff to png
+        assetMover_1.default(this.rendererOptions.OutputDirectory, this.element.links.Uri, true); //also convert tiff to png
     }
     getCSS() {
         let shapeCSS = format(`#{name}.shape{

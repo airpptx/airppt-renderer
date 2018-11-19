@@ -13,10 +13,10 @@ async function waitForParsing() {
 
 	let pptRenderer = new AirRenderer(details, {
 		GridSize: 12,
-		OutputPath: "../output",
+		OutputDirectory: "../output",
 		PositionType: 1
 	});
 
-	let rendered = await pptRenderer.renderPage();
+	let rendered = await pptRenderer.renderPage(true);
 	console.log(rendered);
 }

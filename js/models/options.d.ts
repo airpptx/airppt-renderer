@@ -9,9 +9,13 @@ export interface RenderedElement {
 export interface RendererOptions {
     PositionType: PositionType;
     GridSize?: number;
-    OutputPath?: string;
+    OutputDirectory?: string;
+    StyleSheetName?: string;
 }
 export interface RawSlideShowDetails {
     slideShowGlobals: any;
     slideShowTheme: any;
+}
+export declare class Defaults {
+    static STYLE_SHEET_NAME: string;
 }

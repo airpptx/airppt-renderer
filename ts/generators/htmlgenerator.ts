@@ -6,19 +6,17 @@ import * as jsdom from "jsdom";
 import * as beautify from "beautify";
 import * as jquery from "jquery";
 import * as format from "string-template";
-import { PositionType } from "../models/options";
+import { RendererOptions, Defaults } from "../models/options";
 
 class HTMLGenerator {
 	private JSDOM;
 	private window;
 	private $;
 
-	constructor(positionType: PositionType) {
-		let pos: string;
-		if (positionType == PositionType.Absolute) {
-			pos = "abs.css";
-		} else {
-			pos = "grid.css";
+	constructor(private settings: RendererOptions) {
+		let styleSheetName = settings.StyleSheetName;
+		if (!settings.StyleSheetName) {
+			styleSheetName = Defaults.STYLE_SHEET_NAME;
 		}
 		this.JSDOM = jsdom.JSDOM;
 		this.window = new this.JSDOM(
@@ -33,7 +31,7 @@ class HTMLGenerator {
 						</div>
 						</body>
 					</html>`,
-				pos
+				styleSheetName
 			)
 		).window;
 		this.$ = jquery(this.window);

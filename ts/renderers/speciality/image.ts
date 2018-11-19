@@ -10,8 +10,7 @@ import { PowerpointDetails } from "airppt-models/pptdetails";
 export default class Image extends ElementRenderer {
 	constructor(scaler: GridScaler, element: PowerpointElement, pptDetails: PowerpointDetails, rendererOptions: RendererOptions) {
 		super(scaler, element, pptDetails, rendererOptions);
-
-		copyAssetToOutputDirectory(this.rendererOptions.OutputPath, this.element.links.Uri, true); //also convert tiff to png
+		copyAssetToOutputDirectory(this.rendererOptions.OutputDirectory, this.element.links.Uri, true); //also convert tiff to png
 	}
 
 	getCSS(): string {

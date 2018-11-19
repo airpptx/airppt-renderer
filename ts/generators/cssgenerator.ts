@@ -1,4 +1,5 @@
-import { PositionType } from "../models/options";
+import { RendererOptions, PositionType } from "../models/options";
+import { Coordinate } from "../models/grid";
 
 /**
  * Generates CSS Layout and Item Placement Classes as Per Slide
@@ -6,42 +7,44 @@ import { PositionType } from "../models/options";
 
 const beautify = require("beautify");
 
-class CSSGenerator {
-	static gridCSS = [];
-	static absoluteCSS = [];
+export default class CSSGenerator {
+	private allCSS = [];
 
-	public static addCSSObjects(posType: PositionType, cssElements: string[], absoluteSizeX?: number, absoluteSizeY?: number) {
-		let css = "";
-		if (posType == PositionType.Absolute) {
-			this.absoluteCSS.push(
+	constructor(private slideCanvasSize: Coordinate, private settings: RendererOptions) {
+		if (settings.PositionType == PositionType.Absolute) {
+			let absCSS =
 				`.wrapper {
-            position: fixed;
-            width:` +
-					absoluteSizeX +
-					`px;
-            height:` +
-					absoluteSizeY +
-					`px;
-            border-color: #000000;
-            border-style: dotted
-		  }`
-			);
-			this.absoluteCSS = this.absoluteCSS.concat(cssElements);
-			css = beautify(this.absoluteCSS.join(""), { format: "css" });
+				position: fixed;
+				width:` +
+				slideCanvasSize.x +
+				`px;
+				height:` +
+				slideCanvasSize.y +
+				`px;
+				border-color: #000000;
+				border-style: dotted
+			  }`;
+			this.allCSS.push(this.allCSS);
 		} else {
-			this.gridCSS.push(`
+			let gridCSS = `
 			.wrapper {
 				display: grid;
 				grid-template-columns: repeat(12, 1fr);
 				grid-gap: 10px;
 				grid-auto-rows: minmax(80px, auto);
 				width: 100vw;
-			  }`);
-			this.gridCSS = this.gridCSS.concat(cssElements);
-			css = beautify(this.gridCSS.join(""), { format: "css" });
+			  }`;
+
+			this.allCSS.push(gridCSS);
 		}
-		return css;
+	}
+
+	public addCSSObject(css: string) {
+		//TO-DO: Validate CSS
+		this.allCSS.push(css);
+	}
+
+	public getGeneratedCSS() {
+		return beautify(this.allCSS.join(""), { format: "css" });
 	}
 }
-
-export default CSSGenerator;

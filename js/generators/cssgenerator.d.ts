@@ -1,7 +1,10 @@
-import { PositionType } from "../models/options";
-declare class CSSGenerator {
-    static gridCSS: any[];
-    static absoluteCSS: any[];
-    static generateCSS(posType: PositionType, cssElements: string[], absoluteSizeX?: number, absoluteSizeY?: number): string;
+import { RendererOptions } from "../models/options";
+import { Coordinate } from "../models/grid";
+export default class CSSGenerator {
+    private slideCanvasSize;
+    private settings;
+    private allCSS;
+    constructor(slideCanvasSize: Coordinate, settings: RendererOptions);
+    addCSSObject(css: string): void;
+    getGeneratedCSS(): any;
 }
-export default CSSGenerator;

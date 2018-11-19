@@ -9,13 +9,11 @@ const jquery = require("jquery");
 const format = require("string-template");
 const options_1 = require("../models/options");
 class HTMLGenerator {
-    constructor(positionType) {
-        let pos;
-        if (positionType == options_1.PositionType.Absolute) {
-            pos = "abs.css";
-        }
-        else {
-            pos = "grid.css";
+    constructor(settings) {
+        this.settings = settings;
+        let styleSheetName = settings.StyleSheetName;
+        if (!settings.StyleSheetName) {
+            styleSheetName = options_1.Defaults.STYLE_SHEET_NAME;
         }
         this.JSDOM = jsdom.JSDOM;
         this.window = new this.JSDOM(format(`
@@ -27,7 +25,7 @@ class HTMLGenerator {
 						<div id="layout" class="wrapper">
 						</div>
 						</body>
-					</html>`, pos)).window;
+					</html>`, styleSheetName)).window;
         this.$ = jquery(this.window);
     }
     addElementToDOM(htmlString) {
