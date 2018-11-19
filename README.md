@@ -1,3 +1,3 @@
 # Airppt-Renderer
 
-Library to convert from standardized airppt powerpoint elements to airppt.
+Library to convert from standardized Airppt JSON powerpoint elements to HTML/CSS.
