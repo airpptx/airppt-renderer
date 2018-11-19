@@ -13,6 +13,7 @@ export interface RendererOptions {
 	GridSize?: number;
 	OutputDirectory?: string;
 	StyleSheetName?: string;
+	DoNotRenderIDs?: string[];
 }
 
 export interface RawSlideShowDetails {

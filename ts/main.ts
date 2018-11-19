@@ -40,6 +40,10 @@ export class AirRenderer {
 		await ZipHandler.loadZip(this.slideShowDetails.inputPath);
 		let all = [];
 		for (let element of this.slideShowDetails.powerPointElements) {
+			if (this.settings.DoNotRenderIDs && this.settings.DoNotRenderIDs.indexOf(element.name) != -1) {
+				//ignore any elements that the user doesn't want rendered.
+				continue;
+			}
 			let generatedElement = this.generateElement(this.scaler, element);
 			all.push(generatedElement);
 			this.htmlGenerator.addElementToDOM(generatedElement.html);
@@ -58,5 +62,9 @@ export class AirRenderer {
 		}
 
 		return all;
+	}
+
+	public getPowerpointScaler() {
+		return this.scaler;
 	}
 }

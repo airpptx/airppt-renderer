@@ -14,9 +14,11 @@ async function waitForParsing() {
 	let pptRenderer = new AirRenderer(details, {
 		GridSize: 12,
 		OutputDirectory: "../output",
-		PositionType: 1
+		PositionType: 1,
+		DoNotRenderIDs: ["test"]
 	});
 
+	//TO-DO: Assert Output Check
 	let rendered = await pptRenderer.renderPage(true);
-	console.log(rendered);
+	console.log("Check Output");
 }
