@@ -1,6 +1,6 @@
 {
 	"name": "airppt-renderer",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "Converts AirPPT Powerpoint Element(s) to valid HTML/CSS",
 	"main": "js/main.js",
 	"scripts": {
@@ -8,14 +8,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/github.com/airppt-renderer.git"
+		"url": "https://github.com/airpptx/airppt-renderer.git"
 	},
 	"author": "Raviteja Lingineni",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/github.com/airppt-renderer/issues"
+		"url": "https://github.com/airpptx/airppt-renderer/issues"
 	},
-	"homepage": "https://github.com/github.com/airppt-renderer#readme",
+	"homepage": "https://github.com/airpptx/airppt-renderer#readme",
 	"dependencies": {
 		"airppt-models": "^1.0.8",
 		"beautify": "0.0.8",
