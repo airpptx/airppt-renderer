@@ -1,14 +1,14 @@
 let { AirParser } = require("airppt-parser");
 let { AirRenderer } = require("../js/main");
 
-let pptPath = "/Users/raviteja_lingineni/Documents/Projects/airppt-renderer/tests/sample.pptx";
+let pptPath = "/Users/raviteja_lingineni/Documents/Projects/airppt-all/airppt-renderer/tests/sample.pptx";
 //TO-DO: Write test for each shape and slide number and confirm
 let pptParser = new AirParser(pptPath);
 
 waitForParsing();
 
 async function waitForParsing() {
-	let details = await pptParser.ParsePowerPoint(5);
+	let details = await pptParser.ParsePowerPoint(1);
 	details.inputPath = pptPath;
 
 	let pptRenderer = new AirRenderer(details, {

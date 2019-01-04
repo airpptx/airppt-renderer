@@ -25,7 +25,12 @@ export class AirRenderer {
 	private generateElement(scaler, pptElement: PowerpointElement): RenderedElement {
 		//return the CSS and HTML for only one element
 		let rendererType = pptElement.specialityType == SpecialityType.None ? pptElement.shapeType : pptElement.specialityType; //set the renderer type dynamically
+
 		//Convert PPT shapes
+		if (!(rendererType in ShapeRenderers)) {
+			console.log("Did not find ppt preset shape of " + rendererType + " - using rect instead");
+			rendererType = "rect"; //the default shape to render is a rectangle if that renderer type does not exist
+		}
 		let renderedElement = new ShapeRenderers[rendererType](scaler, pptElement, this.slideShowDetails, this.settings);
 		let css = renderedElement.getCSS();
 		let html = renderedElement.getHTML();
